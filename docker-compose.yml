@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: factorygpt
+      POSTGRES_PASSWORD: factorygpt
+      POSTGRES_DB: factorygpt
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend-core:
+    build: ./apps/backend-core
+    ports:
+      - "8000:8000"
+    env_file: ./apps/backend-core/.env
+    depends_on:
+      - postgres
+      - vision-inspection
+      - chatbot-assistant
+      - predictive-maintenance
+      - root-cause-analysis
+
+  vision-inspection:
+    build: ./services/vision-inspection
+    ports:
+      - "8001:8001"
+    env_file: ./services/vision-inspection/.env
+
+  chatbot-assistant:
+    build: ./services/chatbot-assistant
+    ports:
+      - "8002:8002"
+    env_file: ./services/chatbot-assistant/.env
+
+  predictive-maintenance:
+    build: ./services/predictive-maintenance
+    ports:
+      - "8003:8003"
+    env_file: ./services/predictive-maintenance/.env
+
+  root-cause-analysis:
+    build: ./services/root-cause-analysis
+    ports:
+      - "8004:8004"
+    env_file: ./services/root-cause-analysis/.env
+
+  frontend:
+    build: ./apps/frontend
+    ports:
+      - "3000:3000"
+    env_file: ./apps/frontend/.env.local
+    depends_on:
+      - backend-core
+
+volumes:
+  pgdata:
