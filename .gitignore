@@ -1,10 +1,15 @@
-__pycache__/
+_pycache__/
 *.pyc
 venv/
 .env
 node_modules/
 .next/
 .env.local
+.DS_Store
+*.log
+*.pt
+services/vision-inspection/app/model/weights/*
+!services/vision-inspection/app/model/weights/.gitkeep
 *.pt
 services/vision-inspection/app/model/weights/*
 !services/vision-inspection/app/model/weights/.gitkeep
