@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+venv/
+.env
+node_modules/
+.next/
+.env.local
+*.pt
+services/vision-inspection/app/model/weights/*
+!services/vision-inspection/app/model/weights/.gitkeep
+.DS_Store
+*.log
+services/vision-inspection/data/images/
+services/vision-inspection/data/labels/
+services/vision-inspection/data/prepared/
+runs/
