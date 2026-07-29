@@ -47,3 +47,25 @@ class TicketOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ShiftSummary(BaseModel):
+    shift: str
+    count: int
+    target: int
+    efficiency_pct: float
+
+
+class LineSummary(BaseModel):
+    line_id: str
+    count: int
+    target: int
+    efficiency_pct: float
+
+
+class ProductionSummaryOut(BaseModel):
+    total_count: int
+    total_target: int
+    overall_efficiency_pct: float
+    by_shift: List[ShiftSummary]
+    by_line: List[LineSummary]

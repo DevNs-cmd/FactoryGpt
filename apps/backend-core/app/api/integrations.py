@@ -21,7 +21,7 @@ def _safe_get(url: str):
         r = httpx.get(url, timeout=3.0)
         r.raise_for_status()
         return r.json()
-    except httpx.HTTPError:
+    except Exception:
         return None
 
 
@@ -29,9 +29,9 @@ def _safe_get(url: str):
 def overview():
     """One combined payload for the main dashboard."""
     return {
-        "vision": _safe_get(f"{VISION_URL}/health"),
-        "maintenance": _safe_get(f"{MAINTENANCE_URL}/machine-health"),
-        "root_cause": _safe_get(f"{ROOTCAUSE_URL}/root-cause"),
+        "vision": _safe_get(f"{VISION_URL}/health") or {"status": "offline", "service": "vision-inspection"},
+        "maintenance": _safe_get(f"{MAINTENANCE_URL}/machine-health") or {"status": "offline", "service": "predictive-maintenance"},
+        "root_cause": _safe_get(f"{ROOTCAUSE_URL}/root-cause") or {"status": "offline", "service": "root-cause-analysis"},
     }
 
 
@@ -42,5 +42,6 @@ def chat_proxy(payload: dict):
         r = httpx.post(f"{CHATBOT_URL}/chat", json=payload, timeout=15.0)
         r.raise_for_status()
         return r.json()
-    except httpx.HTTPError:
-        return {"error": "chatbot-assistant is unavailable right now"}
+    except Exception:
+        return {"reply": "Chatbot service is currently offline or unreachable. Please verify chatbot-assistant is running on port 8002."}
+
