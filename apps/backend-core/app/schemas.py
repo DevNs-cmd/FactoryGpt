@@ -37,6 +37,13 @@ class DefectEventIn(BaseModel):
     description: Optional[str] = None
 
 
+class MachineHealthAlertIn(BaseModel):
+    machine_id: str
+    health_score: int
+    threshold: Optional[int] = 40
+    description: Optional[str] = None
+
+
 class TicketOut(BaseModel):
     id: int
     source_module: str
