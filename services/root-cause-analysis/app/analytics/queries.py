@@ -109,3 +109,30 @@ def _fetch_downtime_df() -> pd.DataFrame:
     if not data:
         return pd.DataFrame(columns=["line_id", "machine_id", "duration_seconds", "reason", "timestamp"])
     return pd.DataFrame(data)
+def dashboard_summary() -> dict:
+    df = _fetch_downtime_df()
+
+    if df.empty:
+        return {
+            "total_events": 0,
+            "total_downtime": 0,
+            "average_downtime": 0,
+            "worst_machine": None,
+            "worst_line": None,
+            "top_reason": None,
+            "machines_affected": 0,
+            "lines_affected": 0,
+        }
+
+    breakdown = root_cause_breakdown()
+
+    return {
+        "total_events": len(df),
+        "total_downtime": int(df["duration_seconds"].sum()),
+        "average_downtime": round(df["duration_seconds"].mean(), 2),
+        "worst_machine": breakdown["worst_machine"],
+        "worst_line": breakdown["worst_line"],
+        "top_reason": breakdown["by_reason"][0]["reason"],
+        "machines_affected": df["machine_id"].nunique(),
+        "lines_affected": df["line_id"].nunique(),
+    }

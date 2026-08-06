@@ -1,6 +1,10 @@
 """Owner: Vedant."""
 from fastapi import APIRouter
-from app.analytics.queries import root_cause_breakdown, shift_operator_breakdown
+from app.analytics.queries import (
+    root_cause_breakdown,
+    shift_operator_breakdown,
+    dashboard_summary,
+)
 from app.analytics.report import generate_report
 
 router = APIRouter()
@@ -17,3 +21,6 @@ def root_cause_by_shift_operator():
 @router.get("/report")
 def report():
     return generate_report()
+@router.get("/dashboard")
+def dashboard():
+    return dashboard_summary()
