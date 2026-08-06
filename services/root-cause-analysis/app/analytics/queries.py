@@ -22,7 +22,7 @@ def _fetch_downtime_df() -> pd.DataFrame:
     if not data:
         return pd.DataFrame(columns=["line_id", "machine_id", "duration_seconds", "reason", "timestamp"])
     return pd.DataFrame(data)
-
+   
 
 def root_cause_breakdown() -> dict:
     df = _fetch_downtime_df()
@@ -31,7 +31,8 @@ def root_cause_breakdown() -> dict:
 
     by_reason = (
         df.groupby("reason")
-        .agg(count=("reason", "size"), total_downtime_seconds=("duration_seconds", "sum"))
+        .agg(count=("reason", "size"), total_downtime_seconds=("duration_seconds", "sum"), 
+             average_downtime_seconds=("duration_seconds", "mean"))
         .reset_index()
         .sort_values("total_downtime_seconds", ascending=False)
     )
@@ -50,3 +51,61 @@ def root_cause_breakdown() -> dict:
         "worst_machine": worst_machine,
         "worst_line": worst_line,
     }
+def shift_operator_breakdown() -> dict:
+    """
+    Breaks down downtime by shift and operator.
+    NOTE: as of now, DowntimeEvent from backend-core does not include
+    'shift' or 'operator_id' — this is a proposed contract change,
+    tracked in docs/api-contracts.md. Until backend-core adds these
+    fields, this function returns a clear "not available" response
+    instead of crashing.
+    """
+    df = _fetch_downtime_df()
+    if df.empty:
+        return {"by_shift": [], "by_operator": [], "available": False}
+
+    has_shift = "shift" in df.columns
+    has_operator = "operator_id" in df.columns
+
+    by_shift = []
+    if has_shift:
+        by_shift = (
+            df.groupby("shift")["duration_seconds"]
+            .sum()
+            .reset_index()
+            .sort_values("duration_seconds", ascending=False)
+            .to_dict(orient="records")
+        )
+
+    by_operator = []
+    if has_operator:
+        by_operator = (
+            df.groupby("operator_id")["duration_seconds"]
+            .sum()
+            .reset_index()
+            .sort_values("duration_seconds", ascending=False)
+            .to_dict(orient="records")
+        )
+
+    return {
+        "by_shift": by_shift,
+        "by_operator": by_operator,
+        "available": has_shift and has_operator,
+    }
+USE_MOCK_DATA = os.getenv("USE_MOCK_DATA", "true").lower() == "true"
+
+
+def _fetch_downtime_df() -> pd.DataFrame:
+    if USE_MOCK_DATA:
+        from app.analytics.mock_data import MOCK_DOWNTIME_EVENTS
+        data = MOCK_DOWNTIME_EVENTS
+    else:
+        try:
+            r = httpx.get(f"{BACKEND_CORE_URL}/production/downtime", params={"limit": 500}, timeout=5.0)
+            r.raise_for_status()
+            data = r.json()
+        except httpx.HTTPError:
+            data = []
+    if not data:
+        return pd.DataFrame(columns=["line_id", "machine_id", "duration_seconds", "reason", "timestamp"])
+    return pd.DataFrame(data)
