@@ -11,20 +11,32 @@ def generate_report() -> dict:
     breakdown = root_cause_breakdown()
     df = _fetch_downtime_df()
 
-    top_causes = [row["reason"] for row in breakdown["by_reason"][:3]]
+    top_causes = breakdown["by_reason"][:3]
 
     if not top_causes:
-        summary = "No downtime events logged yet."
-    else:
         summary = (
-            f"Over the logged period, the top downtime causes were "
-            f"{', '.join(top_causes)}. "
-            f"The worst-performing machine was {breakdown['worst_machine']} "
-            f"on {breakdown['worst_line']}."
+            "No downtime events were recorded during the selected period. "
+            "Production appears to have operated normally."
+        )
+    else:
+        primary_cause = top_causes[0]
+
+        summary = (
+            f"A total of {len(df)} downtime events were recorded during the analyzed period. "
+            f"The leading cause of downtime was '{primary_cause['reason']}', "
+            f"responsible for {primary_cause['total_downtime_seconds']} seconds "
+            f"across {primary_cause['count']} incidents. "
+            f"The machine with the highest accumulated downtime was "
+            f"{breakdown['worst_machine']}, while the most affected production line "
+            f"was {breakdown['worst_line']}. "
+            f"Management should prioritize investigation of "
+            f"{primary_cause['reason']} to improve production availability."
         )
 
     return {
         "summary": summary,
         "top_causes": top_causes,
+        "worst_machine": breakdown["worst_machine"],
+        "worst_line": breakdown["worst_line"],
         "total_downtime_events": int(len(df)),
     }
