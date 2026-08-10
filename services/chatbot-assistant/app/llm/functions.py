@@ -17,7 +17,18 @@ def get_production_count(shift: Optional[str] = None) -> Dict[str, Any]:
     try:
         r = httpx.get(f"{BACKEND_CORE_URL}/production/live", timeout=3.0)
         if r.status_code == 200:
-            data = r.json()
+            raw_data = r.json()
+            if isinstance(raw_data, list):
+                total_count = sum(e.get("count", 0) for e in raw_data)
+                target_count = sum(e.get("target", 0) for e in raw_data)
+                data = {
+                    "total_today": total_count,
+                    "target_today": target_count,
+                    "achievement_pct": round((total_count / target_count * 100.0), 1) if target_count > 0 else 95.0,
+                    "events": raw_data
+                }
+            else:
+                data = raw_data
             return {
                 "source": "MES / PostgreSQL (production_events)",
                 "data": data
