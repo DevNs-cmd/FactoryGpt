@@ -11,3 +11,10 @@ class MachineHealth(BaseModel):
     rpm: int
     predicted_days_to_failure: int
     timestamp: datetime
+
+
+class MachineHealthHistory(BaseModel):
+    machine_id: str
+    degrading: bool
+    count: int
+    readings: list[MachineHealth]
