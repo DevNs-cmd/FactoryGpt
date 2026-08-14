@@ -36,7 +36,7 @@ export default function DowntimeTable() {
 
   if (rows.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--color-text-muted)] font-mono text-sm">
+      <div className="text-center py-8 text-[var(--color-text-muted)] text-sm">
         No downtime events recorded
       </div>
     );
@@ -47,11 +47,11 @@ export default function DowntimeTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="text-left text-[var(--color-text-muted)] border-b border-[var(--color-line)]">
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Machine</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Line</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Duration</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Reason</th>
-            <th className="pb-3 font-medium text-xs uppercase tracking-wider text-right">Time</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Machine</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Line</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Duration</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Reason</th>
+            <th className="pb-3 font-medium text-xs text-right">Time</th>
           </tr>
         </thead>
         <tbody>
@@ -60,10 +60,10 @@ export default function DowntimeTable() {
             return (
               <tr
                 key={i}
-                className="border-b border-[var(--color-line)] border-opacity-30 hover:bg-[var(--color-surface)] transition-colors"
+                className="border-b border-[var(--color-line)] border-opacity-50 hover:bg-[var(--color-surface)] transition-colors"
               >
                 <td className="py-3 pr-4">
-                  <span className="font-mono font-medium text-[var(--color-text-primary)]">
+                  <span className="font-medium text-[var(--color-text-primary)]">
                     {r.machine_id}
                   </span>
                 </td>
@@ -72,7 +72,7 @@ export default function DowntimeTable() {
                 </td>
                 <td className="py-3 pr-4">
                   <span
-                    className="inline-flex items-center gap-1 font-mono text-xs"
+                    className="inline-flex items-center gap-1 text-xs"
                     style={{ color: isLong ? "var(--color-danger)" : "var(--color-amber)" }}
                   >
                     {isLong && <AlertTriangle size={12} />}
@@ -85,7 +85,7 @@ export default function DowntimeTable() {
                     {r.reason}
                   </span>
                 </td>
-                <td className="py-3 text-right text-xs font-mono text-[var(--color-text-muted)]">
+                <td className="py-3 text-right text-xs text-[var(--color-text-muted)]">
                   {new Date(r.timestamp).toLocaleString()}
                 </td>
               </tr>

@@ -1,4 +1,4 @@
-/** Enhanced production table with progress bars and color-coded efficiency. */
+/** Production table with progress bars and color-coded efficiency. */
 "use client";
 import { useEffect, useState } from "react";
 import { api, type ProductionEvent } from "@/lib/api";
@@ -33,7 +33,7 @@ export default function ProductionTable() {
 
   if (rows.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--color-text-muted)] font-mono text-sm">
+      <div className="text-center py-8 text-[var(--color-text-muted)] text-sm">
         No production data — run POST /production/seed to populate
       </div>
     );
@@ -44,11 +44,11 @@ export default function ProductionTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="text-left text-[var(--color-text-muted)] border-b border-[var(--color-line)]">
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Line</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Shift</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider">Progress</th>
-            <th className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider text-right">Count / Target</th>
-            <th className="pb-3 font-medium text-xs uppercase tracking-wider text-right">Time</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Line</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Shift</th>
+            <th className="pb-3 pr-4 font-medium text-xs">Progress</th>
+            <th className="pb-3 pr-4 font-medium text-xs text-right">Count / Target</th>
+            <th className="pb-3 font-medium text-xs text-right">Time</th>
           </tr>
         </thead>
         <tbody>
@@ -64,10 +64,10 @@ export default function ProductionTable() {
             return (
               <tr
                 key={i}
-                className="border-b border-[var(--color-line)] border-opacity-30 hover:bg-[var(--color-surface)] transition-colors"
+                className="border-b border-[var(--color-line)] border-opacity-50 hover:bg-[var(--color-surface)] transition-colors"
               >
                 <td className="py-3 pr-4">
-                  <span className="font-mono font-medium text-[var(--color-text-primary)]">
+                  <span className="font-medium text-[var(--color-text-primary)]">
                     {r.line_id}
                   </span>
                 </td>
@@ -83,17 +83,17 @@ export default function ProductionTable() {
                       />
                     </div>
                     <span
-                      className="text-xs font-mono font-semibold"
+                      className="text-xs font-medium"
                       style={{ color: barColor }}
                     >
                       {pct}%
                     </span>
                   </div>
                 </td>
-                <td className="py-3 pr-4 text-right font-mono text-[var(--color-text-secondary)]">
+                <td className="py-3 pr-4 text-right text-[var(--color-text-secondary)]">
                   <span className="text-[var(--color-text-primary)]">{r.count}</span> / {r.target}
                 </td>
-                <td className="py-3 text-right text-xs font-mono text-[var(--color-text-muted)]">
+                <td className="py-3 text-right text-xs text-[var(--color-text-muted)]">
                   {new Date(r.timestamp).toLocaleTimeString()}
                 </td>
               </tr>

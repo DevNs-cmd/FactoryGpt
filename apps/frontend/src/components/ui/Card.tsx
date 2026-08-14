@@ -1,4 +1,4 @@
-/** Enhanced reusable Card with glassmorphism, hover effects, and loading state. */
+/** Reusable Card with title, accent dot, and loading state. */
 import { Loader2 } from "lucide-react";
 
 interface CardProps {
@@ -10,10 +10,10 @@ interface CardProps {
 }
 
 const ACCENT_MAP = {
-  cyan: "#3dc7c7",
-  amber: "#e8a33d",
-  danger: "#e0563f",
-  success: "#34d399",
+  cyan: "#2563EB",
+  amber: "#D97706",
+  danger: "#DC2626",
+  success: "#16A34A",
 };
 
 export default function Card({
@@ -31,7 +31,7 @@ export default function Card({
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: ACCENT_MAP[accent] }}
           />
-          <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+          <h3 className="text-sm font-semibold text-[var(--color-text-secondary)]">
             {title}
           </h3>
         </div>

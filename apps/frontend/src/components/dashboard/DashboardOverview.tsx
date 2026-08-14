@@ -69,11 +69,11 @@ export default function DashboardOverview() {
   if (error) {
     return (
       <div className="card-base p-8 text-center">
-        <div className="w-12 h-12 rounded-xl gradient-danger flex items-center justify-center mx-auto mb-4">
-          <AlertTriangle size={24} color="#0c1017" />
+        <div className="w-12 h-12 rounded-lg bg-[var(--color-danger-light)] flex items-center justify-center mx-auto mb-4">
+          <AlertTriangle size={24} className="text-[var(--color-danger)]" />
         </div>
-        <h3 className="text-lg font-display font-semibold mb-2">Backend Unreachable</h3>
-        <p className="text-sm text-[var(--color-text-secondary)] font-mono">
+        <h3 className="text-lg font-semibold mb-2">Backend Unreachable</h3>
+        <p className="text-sm text-[var(--color-text-secondary)]">
           Make sure backend-core is running on port 8000
         </p>
       </div>
@@ -83,7 +83,7 @@ export default function DashboardOverview() {
   const openTickets = tickets.filter((t) => t.status === "open").length;
 
   return (
-    <div className="space-y-6 stagger-children">
+    <div className="space-y-6">
       {/* ── KPI Row ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
@@ -93,7 +93,6 @@ export default function DashboardOverview() {
           accent="cyan"
           subtitle={`Target: ${summary?.total_target?.toLocaleString() ?? "—"}`}
           trend="up"
-          delay={0}
         />
         <KPICard
           label="Overall Efficiency"
@@ -102,7 +101,6 @@ export default function DashboardOverview() {
           accent={(summary?.overall_efficiency_pct ?? 0) >= 85 ? "success" : "amber"}
           subtitle="OEE across all lines"
           trend={(summary?.overall_efficiency_pct ?? 0) >= 85 ? "up" : "down"}
-          delay={50}
         />
         <KPICard
           label="Open Tickets"
@@ -110,7 +108,6 @@ export default function DashboardOverview() {
           icon={<AlertTriangle size={20} />}
           accent={openTickets > 3 ? "danger" : "amber"}
           subtitle={`${tickets.length} total recent`}
-          delay={100}
         />
         <KPICard
           label="Active Lines"
@@ -119,20 +116,19 @@ export default function DashboardOverview() {
           accent="cyan"
           subtitle={`${summary?.by_shift?.length ?? 0} shifts running`}
           trend="neutral"
-          delay={150}
         />
       </div>
 
       {/* ── Charts Row ───────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="card-base p-5">
-          <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
             Line Efficiency
           </h3>
           <EfficiencyChart data={summary?.by_line ?? []} />
         </div>
         <div className="card-base p-5">
-          <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
             Shift Performance
           </h3>
           <ShiftChart data={summary?.by_shift ?? []} />
@@ -144,24 +140,24 @@ export default function DashboardOverview() {
         {/* Recent Tickets */}
         <div className="lg:col-span-2 card-base p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+            <h3 className="text-sm font-semibold text-[var(--color-text-secondary)]">
               Recent Tickets
             </h3>
             <a
               href="/tickets"
-              className="text-xs text-[var(--color-cyan)] hover:underline font-mono"
+              className="text-xs text-[var(--color-primary)] hover:underline"
             >
               View all →
             </a>
           </div>
           {tickets.length === 0 ? (
-            <p className="text-sm text-[var(--color-text-muted)] font-mono">No tickets yet</p>
+            <p className="text-sm text-[var(--color-text-muted)]">No tickets yet</p>
           ) : (
             <div className="space-y-2">
               {tickets.map((t) => (
                 <div
                   key={t.id}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-panel-hover)] transition-colors"
+                  className="flex items-start gap-3 p-3 rounded-lg bg-[var(--color-surface)] hover:bg-[var(--color-panel-hover)] transition-colors"
                 >
                   <div className="mt-0.5">
                     <span
@@ -182,7 +178,7 @@ export default function DashboardOverview() {
                     </p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="badge badge-offline text-[9px]">{t.source_module}</span>
-                      <span className="text-[10px] text-[var(--color-text-muted)] font-mono flex items-center gap-1">
+                      <span className="text-[10px] text-[var(--color-text-muted)] flex items-center gap-1">
                         <Clock size={10} />
                         {new Date(t.created_at).toLocaleDateString()}
                       </span>
@@ -196,7 +192,7 @@ export default function DashboardOverview() {
 
         {/* Service Health */}
         <div className="card-base p-5">
-          <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
             Service Health
           </h3>
           <div className="space-y-3">
@@ -224,7 +220,7 @@ export default function DashboardOverview() {
             ].map((svc) => (
               <div
                 key={svc.name}
-                className="flex items-center justify-between p-3 rounded-xl bg-[var(--color-surface)]"
+                className="flex items-center justify-between p-3 rounded-lg bg-[var(--color-surface)]"
               >
                 <div className="flex items-center gap-2.5">
                   <span

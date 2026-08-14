@@ -1,4 +1,4 @@
-/** Enhanced data table with sorting indicators, row hover, and empty state. */
+/** Data table with sorting indicators, row hover, and empty state. */
 import { ArrowUpDown } from "lucide-react";
 
 interface TableProps {
@@ -14,7 +14,7 @@ export default function Table({
 }: TableProps) {
   if (rows.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--color-text-muted)] font-mono text-sm">
+      <div className="text-center py-8 text-[var(--color-text-muted)] text-sm">
         {emptyMessage}
       </div>
     );
@@ -28,7 +28,7 @@ export default function Table({
             {columns.map((c) => (
               <th
                 key={c}
-                className="pb-3 pr-4 font-medium text-xs uppercase tracking-wider"
+                className="pb-3 pr-4 font-medium text-xs"
               >
                 <span className="inline-flex items-center gap-1">
                   {c}
@@ -42,12 +42,12 @@ export default function Table({
           {rows.map((row, i) => (
             <tr
               key={i}
-              className="border-b border-[var(--color-line)] border-opacity-30 hover:bg-[var(--color-surface)] transition-colors"
+              className="border-b border-[var(--color-line)] border-opacity-50 hover:bg-[var(--color-surface)] transition-colors"
             >
               {row.map((cell, j) => (
                 <td
                   key={j}
-                  className="py-2.5 pr-4 text-[var(--color-text-secondary)] font-mono"
+                  className="py-2.5 pr-4 text-[var(--color-text-secondary)]"
                 >
                   {cell}
                 </td>

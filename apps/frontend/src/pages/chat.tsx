@@ -10,7 +10,7 @@ export default function ChatPage() {
       </Head>
       <div>
         <div className="mb-6">
-          <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
             Factory Assistant
           </h1>
           <p className="text-sm text-[var(--color-text-secondary)] mt-1">

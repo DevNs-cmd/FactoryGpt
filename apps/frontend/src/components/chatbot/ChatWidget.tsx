@@ -1,4 +1,4 @@
-/** FactoryGPT — Enhanced Chat Widget with bubbles, language toggle, suggested prompts. */
+/** FactoryGPT — Chat Widget with bubbles, language toggle, suggested prompts. */
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { api } from "@/lib/api";
@@ -63,17 +63,17 @@ export default function ChatWidget() {
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--color-line)]">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg gradient-cyan flex items-center justify-center">
-            <Bot size={16} color="#0c1017" />
+          <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
+            <Bot size={16} color="#FFFFFF" />
           </div>
           <div>
-            <span className="text-sm font-display font-semibold">FactoryGPT Assistant</span>
+            <span className="text-sm font-semibold">FactoryGPT Assistant</span>
             <span className="status-dot status-dot-online ml-2" />
           </div>
         </div>
         <button
           onClick={() => setLanguage(language === "en" ? "hi" : "en")}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-surface)] text-xs font-mono text-[var(--color-text-secondary)] hover:text-[var(--color-cyan)] hover:bg-[var(--color-cyan-glow)] transition-all"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-surface)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-light)] transition-all"
           title="Toggle language"
         >
           <Globe size={12} />
@@ -84,11 +84,11 @@ export default function ChatWidget() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
         {messages.length === 0 && !loading && (
-          <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
-            <div className="w-16 h-16 rounded-2xl gradient-cyan flex items-center justify-center mb-4">
-              <Sparkles size={28} color="#0c1017" />
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="w-14 h-14 rounded-xl bg-[var(--color-primary-light)] flex items-center justify-center mb-4">
+              <Sparkles size={24} className="text-[var(--color-primary)]" />
             </div>
-            <h3 className="text-lg font-display font-semibold mb-2 text-[var(--color-text-primary)]">
+            <h3 className="text-lg font-semibold mb-2 text-[var(--color-text-primary)]">
               Ask me anything about the factory
             </h3>
             <p className="text-sm text-[var(--color-text-secondary)] mb-6 max-w-md">
@@ -99,7 +99,7 @@ export default function ChatWidget() {
                 <button
                   key={prompt}
                   onClick={() => send(prompt)}
-                  className="px-3 py-2 rounded-xl bg-[var(--color-surface)] border border-[var(--color-line)] text-xs font-mono text-[var(--color-text-secondary)] hover:text-[var(--color-cyan)] hover:border-[rgba(61,199,199,0.3)] hover:bg-[var(--color-cyan-glow)] transition-all"
+                  className="px-3 py-2 rounded-lg bg-[var(--color-surface)] border border-[var(--color-line)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-primary-border)] hover:bg-[var(--color-primary-light)] transition-all"
                 >
                   {prompt}
                 </button>
@@ -111,24 +111,24 @@ export default function ChatWidget() {
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`flex gap-3 animate-fade-in ${m.role === "user" ? "justify-end" : ""}`}
+            className={`flex gap-3 ${m.role === "user" ? "justify-end" : ""}`}
           >
             {m.role === "assistant" && (
-              <div className="w-8 h-8 rounded-lg gradient-cyan flex items-center justify-center flex-shrink-0 mt-1">
-                <Bot size={14} color="#0c1017" />
+              <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0 mt-1">
+                <Bot size={14} color="#FFFFFF" />
               </div>
             )}
             <div
               className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                 m.role === "user"
-                  ? "bg-[var(--color-cyan)] text-[var(--color-base)] rounded-br-md"
+                  ? "bg-[var(--color-primary)] text-white rounded-br-md"
                   : "bg-[var(--color-surface)] text-[var(--color-text-primary)] rounded-bl-md"
               }`}
             >
               <p className="whitespace-pre-wrap">{m.text}</p>
               <p
                 className={`text-[10px] mt-1.5 ${
-                  m.role === "user" ? "text-[rgba(12,16,23,0.5)]" : "text-[var(--color-text-muted)]"
+                  m.role === "user" ? "text-blue-200" : "text-[var(--color-text-muted)]"
                 }`}
               >
                 {m.timestamp.toLocaleTimeString()}
@@ -143,14 +143,14 @@ export default function ChatWidget() {
         ))}
 
         {loading && (
-          <div className="flex gap-3 animate-fade-in">
-            <div className="w-8 h-8 rounded-lg gradient-cyan flex items-center justify-center flex-shrink-0">
-              <Bot size={14} color="#0c1017" />
+          <div className="flex gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
+              <Bot size={14} color="#FFFFFF" />
             </div>
             <div className="bg-[var(--color-surface)] rounded-2xl rounded-bl-md px-4 py-3">
               <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
                 <Loader2 size={14} className="animate-spin" />
-                <span className="font-mono">Thinking...</span>
+                <span>Thinking...</span>
               </div>
             </div>
           </div>
@@ -168,12 +168,12 @@ export default function ChatWidget() {
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && send()}
             placeholder={language === "en" ? "Ask about production, defects, downtime..." : "उत्पादन, दोष, डाउनटाइम के बारे में पूछें..."}
             disabled={loading}
-            className="flex-1 bg-[var(--color-surface)] border border-[var(--color-line)] rounded-xl px-4 py-3 text-sm font-mono outline-none focus:border-[var(--color-cyan)] transition-colors disabled:opacity-50 placeholder:text-[var(--color-text-muted)]"
+            className="flex-1 bg-white border border-[var(--color-line)] rounded-lg px-4 py-3 text-sm outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary-border)] transition-all disabled:opacity-50 placeholder:text-[var(--color-text-muted)]"
           />
           <button
             onClick={() => send()}
             disabled={loading || !input.trim()}
-            className="px-4 rounded-xl gradient-cyan text-[var(--color-base)] hover:opacity-90 transition-opacity disabled:opacity-30 flex items-center justify-center"
+            className="px-4 rounded-lg bg-[var(--color-primary)] text-white hover:opacity-90 transition-opacity disabled:opacity-30 flex items-center justify-center"
           >
             <Send size={18} />
           </button>

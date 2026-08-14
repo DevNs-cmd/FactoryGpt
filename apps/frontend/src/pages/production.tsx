@@ -25,7 +25,7 @@ export default function Production() {
       </Head>
       <div>
         <div className="mb-6">
-          <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
             Production Monitoring
           </h1>
           <p className="text-sm text-[var(--color-text-secondary)] mt-1">
@@ -35,7 +35,7 @@ export default function Production() {
 
         {/* Summary KPIs */}
         {summary && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <KPICard
               label="Total Produced"
               value={summary.total_count.toLocaleString()}
@@ -66,15 +66,15 @@ export default function Production() {
         )}
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1 mb-4 p-1 bg-[var(--color-surface)] rounded-xl inline-flex">
+        <div className="flex items-center gap-1 mb-4 border-b border-[var(--color-line)]">
           {(["live", "downtime"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 text-sm font-medium transition-all duration-150 border-b-2 -mb-px ${
                 tab === t
-                  ? "bg-[var(--color-cyan-glow)] text-[var(--color-cyan)] shadow-sm"
-                  : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                  ? "border-[var(--color-primary)] text-[var(--color-primary)]"
+                  : "border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
               }`}
             >
               {t === "live" ? "Live Production" : "Downtime Log"}
@@ -83,7 +83,7 @@ export default function Production() {
         </div>
 
         {/* Content */}
-        <div className="card-base p-5 animate-fade-in" key={tab}>
+        <div className="card-base p-5" key={tab}>
           {tab === "live" ? <ProductionTable /> : <DowntimeTable />}
         </div>
       </div>

@@ -17,25 +17,25 @@ import {
 } from "recharts";
 import { Search, AlertTriangle, Factory, Wrench } from "lucide-react";
 
-const PIE_COLORS = ["#3dc7c7", "#e8a33d", "#e0563f", "#34d399", "#8b95a5", "#a78bfa", "#f472b6"];
+const PIE_COLORS = ["#2563EB", "#D97706", "#DC2626", "#16A34A", "#64748B", "#7C3AED", "#EC4899"];
 
 function CustomTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="glass rounded-lg px-3 py-2 text-xs font-mono">
+    <div className="bg-white border border-[var(--color-line)] rounded-lg px-3 py-2 text-xs shadow-md">
       <p className="text-[var(--color-text-primary)] font-semibold mb-1">{d.reason || d.name}</p>
       {d.total_downtime_seconds != null && (
         <p className="text-[var(--color-text-secondary)]">
           Total downtime:{" "}
-          <span className="text-[var(--color-amber)]">
+          <span className="text-[var(--color-amber)] font-medium">
             {Math.round(d.total_downtime_seconds / 60)}m
           </span>
         </p>
       )}
       {d.count != null && (
         <p className="text-[var(--color-text-secondary)]">
-          Occurrences: <span className="text-[var(--color-cyan)]">{d.count}</span>
+          Occurrences: <span className="text-[var(--color-primary)] font-medium">{d.count}</span>
         </p>
       )}
     </div>
@@ -108,10 +108,10 @@ export default function RootCausePage() {
           <title>Root Cause — FactoryGPT ERP Portal</title>
         </Head>
         <div>
-          <h1 className="text-2xl font-display font-bold mb-6">Root Cause Analysis</h1>
+          <h1 className="text-2xl font-semibold mb-6">Root Cause Analysis</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="h-72 animate-shimmer rounded-xl" />
-            <div className="h-72 animate-shimmer rounded-xl" />
+            <div className="h-72 animate-shimmer rounded-lg" />
+            <div className="h-72 animate-shimmer rounded-lg" />
           </div>
         </div>
       </>
@@ -125,7 +125,7 @@ export default function RootCausePage() {
       </Head>
       <div>
         <div className="mb-6">
-          <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
             Root Cause Analysis
           </h1>
           <p className="text-sm text-[var(--color-text-secondary)] mt-1">
@@ -134,18 +134,18 @@ export default function RootCausePage() {
         </div>
 
         {/* Highlight Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 stagger-children">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle size={16} className="text-[var(--color-danger)]" />
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Top Downtime Reason
               </span>
             </div>
-            <p className="text-sm font-mono text-[var(--color-text-primary)] leading-relaxed">
+            <p className="text-sm text-[var(--color-text-primary)] leading-relaxed">
               {reasonBreakdown[0]?.reason || rcData?.by_reason?.[0]?.reason || "No data"}
             </p>
-            <p className="text-xs text-[var(--color-text-muted)] font-mono mt-1">
+            <p className="text-xs text-[var(--color-text-muted)] mt-1">
               {reasonBreakdown[0]
                 ? `${Math.round(reasonBreakdown[0].total_downtime_seconds / 60)}min total`
                 : ""}
@@ -154,31 +154,31 @@ export default function RootCausePage() {
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-2">
               <Wrench size={16} className="text-[var(--color-amber)]" />
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Worst Machine
               </span>
             </div>
-            <p className="text-lg font-mono font-bold text-[var(--color-amber)]">
+            <p className="text-lg font-semibold text-[var(--color-text-primary)]">
               {rcData?.worst_machine || worstMachine?.[0] || "—"}
             </p>
             {worstMachine && (
-              <p className="text-xs text-[var(--color-text-muted)] font-mono mt-1">
+              <p className="text-xs text-[var(--color-text-muted)] mt-1">
                 {Math.round(worstMachine[1] / 60)}min total downtime
               </p>
             )}
           </div>
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-2">
-              <Factory size={16} className="text-[var(--color-cyan)]" />
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <Factory size={16} className="text-[var(--color-primary)]" />
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Worst Line
               </span>
             </div>
-            <p className="text-lg font-mono font-bold text-[var(--color-cyan)]">
+            <p className="text-lg font-semibold text-[var(--color-text-primary)]">
               {rcData?.worst_line || worstLine?.[0] || "—"}
             </p>
             {worstLine && (
-              <p className="text-xs text-[var(--color-text-muted)] font-mono mt-1">
+              <p className="text-xs text-[var(--color-text-muted)] mt-1">
                 {Math.round(worstLine[1] / 60)}min total downtime
               </p>
             )}
@@ -189,11 +189,11 @@ export default function RootCausePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Bar Chart: Downtime by Reason */}
           <div className="card-base p-5">
-            <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
               Downtime by Reason
             </h3>
             {reasonBreakdown.length === 0 ? (
-              <div className="flex items-center justify-center h-48 text-[var(--color-text-muted)] text-sm font-mono">
+              <div className="flex items-center justify-center h-48 text-[var(--color-text-muted)] text-sm">
                 No downtime data
               </div>
             ) : (
@@ -206,7 +206,7 @@ export default function RootCausePage() {
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                   <XAxis
                     type="number"
-                    tick={{ fontSize: 11, fill: "#8b95a5" }}
+                    tick={{ fontSize: 11, fill: "#64748B" }}
                     axisLine={false}
                     tickLine={false}
                     tickFormatter={(v) => `${Math.round(v / 60)}m`}
@@ -214,13 +214,13 @@ export default function RootCausePage() {
                   <YAxis
                     type="category"
                     dataKey="reason"
-                    tick={{ fontSize: 10, fill: "#8b95a5" }}
+                    tick={{ fontSize: 10, fill: "#64748B" }}
                     axisLine={false}
                     tickLine={false}
                     width={120}
                   />
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(42,50,63,0.3)" }} />
-                  <Bar dataKey="total_downtime_seconds" radius={[0, 6, 6, 0]} maxBarSize={28}>
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.04)" }} />
+                  <Bar dataKey="total_downtime_seconds" radius={[0, 4, 4, 0]} maxBarSize={28}>
                     {reasonBreakdown.slice(0, 8).map((_, i) => (
                       <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                     ))}
@@ -232,11 +232,11 @@ export default function RootCausePage() {
 
           {/* Pie Chart: Occurrences by Reason */}
           <div className="card-base p-5">
-            <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
               Occurrence Distribution
             </h3>
             {reasonBreakdown.length === 0 ? (
-              <div className="flex items-center justify-center h-48 text-[var(--color-text-muted)] text-sm font-mono">
+              <div className="flex items-center justify-center h-48 text-[var(--color-text-muted)] text-sm">
                 No data
               </div>
             ) : (
@@ -271,7 +271,7 @@ export default function RootCausePage() {
                       <span className="text-[var(--color-text-secondary)] truncate flex-1">
                         {r.reason}
                       </span>
-                      <span className="font-mono text-[var(--color-text-muted)]">{r.count}</span>
+                      <span className="text-[var(--color-text-muted)]">{r.count}</span>
                     </div>
                   ))}
                 </div>
@@ -282,7 +282,7 @@ export default function RootCausePage() {
 
         {/* Service Status */}
         {!rcData && (
-          <div className="mt-4 border-l-2 border-[var(--color-amber)] bg-[var(--color-amber-glow)] px-4 py-3 rounded-r-lg text-sm">
+          <div className="mt-4 border-l-2 border-[var(--color-amber)] bg-[var(--color-amber-light)] px-4 py-3 rounded-r-lg text-sm">
             <span className="text-[var(--color-amber)] font-medium">Note:</span>{" "}
             <span className="text-[var(--color-text-secondary)]">
               Root cause analysis service is offline. Showing local aggregation from downtime data.

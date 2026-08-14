@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[var(--color-base)]">
       <Sidebar />
       {/* Main content area — offset by sidebar width, responsive to collapsed state */}
       <main

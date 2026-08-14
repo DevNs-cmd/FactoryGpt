@@ -35,7 +35,7 @@ export default function VisionPage() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+            <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
               AI Vision Inspection
             </h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">
@@ -48,53 +48,53 @@ export default function VisionPage() {
         </div>
 
         {/* Status + Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 stagger-children">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[var(--color-cyan-glow)] flex items-center justify-center">
-                <Camera size={16} className="text-[var(--color-cyan)]" />
+              <div className="w-8 h-8 rounded-lg bg-[var(--color-primary-light)] flex items-center justify-center">
+                <Camera size={16} className="text-[var(--color-primary)]" />
               </div>
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Service Status
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className={`status-dot ${visionOnline ? "status-dot-online" : "status-dot-offline"}`} />
-              <span className="text-lg font-display font-bold" style={{ color: visionOnline ? "var(--color-success)" : "var(--color-text-muted)" }}>
+              <span className="text-lg font-semibold" style={{ color: visionOnline ? "var(--color-success)" : "var(--color-text-muted)" }}>
                 {visionOnline ? "Active" : "Offline"}
               </span>
             </div>
-            <p className="text-[11px] text-[var(--color-text-muted)] font-mono mt-2">
+            <p className="text-[11px] text-[var(--color-text-muted)] mt-2">
               {visionOnline ? "Inspecting production line images" : "Start vision-inspection service on port 8001"}
             </p>
           </div>
 
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[var(--color-danger-glow)] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[var(--color-danger-light)] flex items-center justify-center">
                 <AlertTriangle size={16} className="text-[var(--color-danger)]" />
               </div>
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Open Defects
               </span>
             </div>
-            <p className="text-2xl font-display font-bold text-[var(--color-danger)]">{openDefects}</p>
-            <p className="text-[11px] text-[var(--color-text-muted)] font-mono mt-1">
+            <p className="text-2xl font-semibold text-[var(--color-text-primary)]">{openDefects}</p>
+            <p className="text-[11px] text-[var(--color-text-muted)] mt-1">
               Awaiting resolution
             </p>
           </div>
 
           <div className="card-base p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[var(--color-success-glow)] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[var(--color-success-light)] flex items-center justify-center">
                 <ShieldCheck size={16} className="text-[var(--color-success)]" />
               </div>
-              <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">
+              <span className="text-xs text-[var(--color-text-muted)] font-medium">
                 Resolved
               </span>
             </div>
-            <p className="text-2xl font-display font-bold text-[var(--color-success)]">{closedDefects}</p>
-            <p className="text-[11px] text-[var(--color-text-muted)] font-mono mt-1">
+            <p className="text-2xl font-semibold text-[var(--color-text-primary)]">{closedDefects}</p>
+            <p className="text-[11px] text-[var(--color-text-muted)] mt-1">
               Defects closed
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function VisionPage() {
 
         {/* Defect Detection Log */}
         <div className="card-base p-5">
-          <h3 className="text-sm font-display font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4">
             Detection Log
           </h3>
 
@@ -115,7 +115,7 @@ export default function VisionPage() {
           ) : defectTickets.length === 0 ? (
             <div className="text-center py-8">
               <Eye size={32} className="mx-auto mb-3 text-[var(--color-text-muted)]" />
-              <p className="text-sm text-[var(--color-text-muted)] font-mono">
+              <p className="text-sm text-[var(--color-text-muted)]">
                 No vision defect events recorded yet
               </p>
             </div>
@@ -124,14 +124,14 @@ export default function VisionPage() {
               {defectTickets.map((t) => (
                 <div
                   key={t.id}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-panel-hover)] transition-colors"
+                  className="flex items-start gap-3 p-3 rounded-lg bg-[var(--color-surface)] hover:bg-[var(--color-panel-hover)] transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[var(--color-danger-glow)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--color-danger-light)] flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Eye size={14} className="text-[var(--color-danger)]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-mono text-[var(--color-text-muted)]">#{t.id}</span>
+                      <span className="text-xs text-[var(--color-text-muted)]">#{t.id}</span>
                       <span
                         className={`badge ${
                           t.status === "open"
@@ -148,7 +148,7 @@ export default function VisionPage() {
                     <p className="text-sm text-[var(--color-text-primary)] leading-relaxed">
                       {t.description}
                     </p>
-                    <span className="text-[10px] text-[var(--color-text-muted)] font-mono flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-[var(--color-text-muted)] flex items-center gap-1 mt-1">
                       <Clock size={10} />
                       {new Date(t.created_at).toLocaleString()}
                     </span>

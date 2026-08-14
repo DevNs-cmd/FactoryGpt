@@ -74,7 +74,7 @@ export default function TicketsPage() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+            <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
               Workflow Tickets
             </h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">
@@ -83,7 +83,7 @@ export default function TicketsPage() {
           </div>
           <button
             onClick={loadTickets}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-cyan)] hover:bg-[var(--color-cyan-glow)] transition-all text-sm"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-light)] transition-all text-sm"
           >
             <RefreshCw size={14} />
             Refresh
@@ -91,17 +91,17 @@ export default function TicketsPage() {
         </div>
 
         {/* Stats Bar */}
-        <div className="flex gap-4 mb-6">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-cyan-glow)] border border-[rgba(61,199,199,0.2)]">
+        <div className="flex gap-3 mb-6">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-primary-light)] border border-[var(--color-primary-border)]">
             <span className="status-dot status-dot-online" />
-            <span className="text-xs font-mono text-[var(--color-cyan)]">{openCount} open</span>
+            <span className="text-xs text-[var(--color-primary)]">{openCount} open</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-amber-glow)] border border-[rgba(232,163,61,0.2)]">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-amber-light)] border border-[var(--color-amber-border)]">
             <span className="status-dot status-dot-warning" />
-            <span className="text-xs font-mono text-[var(--color-amber)]">{ackCount} acknowledged</span>
+            <span className="text-xs text-[var(--color-amber)]">{ackCount} acknowledged</span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-surface)] border border-[var(--color-line)]">
-            <span className="text-xs font-mono text-[var(--color-text-muted)]">{tickets.length} total</span>
+            <span className="text-xs text-[var(--color-text-muted)]">{tickets.length} total</span>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export default function TicketsPage() {
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="bg-[var(--color-surface)] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-cyan)] transition-colors"
+            className="bg-white border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)] transition-colors"
           >
             {SOURCE_FILTERS.map((f) => (
               <option key={f.value} value={f.value}>
@@ -122,7 +122,7 @@ export default function TicketsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-[var(--color-surface)] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-cyan)] transition-colors"
+            className="bg-white border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)] transition-colors"
           >
             {STATUS_FILTERS.map((f) => (
               <option key={f.value} value={f.value}>
@@ -136,31 +136,31 @@ export default function TicketsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-20 animate-shimmer rounded-xl" />
+              <div key={i} className="h-20 animate-shimmer rounded-lg" />
             ))}
           </div>
         ) : tickets.length === 0 ? (
           <div className="card-base p-8 text-center">
             <AlertTriangle size={32} className="mx-auto mb-3 text-[var(--color-text-muted)]" />
-            <p className="text-sm text-[var(--color-text-muted)] font-mono">
+            <p className="text-sm text-[var(--color-text-muted)]">
               No tickets match the current filters
             </p>
           </div>
         ) : (
-          <div className="space-y-3 stagger-children">
+          <div className="space-y-3">
             {tickets.map((t) => (
               <div
                 key={t.id}
-                className="card-base p-4 flex items-start gap-4 hover:border-[rgba(61,199,199,0.2)]"
+                className="card-base p-4 flex items-start gap-4"
               >
                 {/* Source Icon */}
                 <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     t.source_module === "vision"
-                      ? "bg-[var(--color-cyan-glow)] text-[var(--color-cyan)]"
+                      ? "bg-[var(--color-primary-light)] text-[var(--color-primary)]"
                       : t.source_module === "maintenance"
-                      ? "bg-[var(--color-amber-glow)] text-[var(--color-amber)]"
-                      : "bg-[var(--color-danger-glow)] text-[var(--color-danger)]"
+                      ? "bg-[var(--color-amber-light)] text-[var(--color-amber)]"
+                      : "bg-[var(--color-danger-light)] text-[var(--color-danger)]"
                   }`}
                 >
                   {getSourceIcon(t.source_module)}
@@ -169,7 +169,7 @@ export default function TicketsPage() {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-mono text-[var(--color-text-muted)]">
+                    <span className="text-xs text-[var(--color-text-muted)]">
                       #{t.id}
                     </span>
                     <span
@@ -189,7 +189,7 @@ export default function TicketsPage() {
                     {t.description}
                   </p>
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="text-[10px] text-[var(--color-text-muted)] font-mono flex items-center gap-1">
+                    <span className="text-[10px] text-[var(--color-text-muted)] flex items-center gap-1">
                       <Clock size={10} />
                       {new Date(t.created_at).toLocaleString()}
                     </span>

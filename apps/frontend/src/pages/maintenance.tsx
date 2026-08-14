@@ -60,10 +60,10 @@ export default function MaintenancePage() {
           <title>Maintenance — FactoryGPT ERP Portal</title>
         </Head>
         <div>
-          <h1 className="text-2xl font-display font-bold mb-6">Predictive Maintenance</h1>
+          <h1 className="text-2xl font-semibold mb-6">Predictive Maintenance</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 animate-shimmer rounded-xl" />
+              <div key={i} className="h-48 animate-shimmer rounded-lg" />
             ))}
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function MaintenancePage() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-display font-bold text-[var(--color-text-primary)]">
+            <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
               Predictive Maintenance
             </h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">
@@ -92,7 +92,7 @@ export default function MaintenancePage() {
           <button
             onClick={runCheck}
             disabled={checking}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl gradient-cyan text-[var(--color-base)] text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             <RefreshCw size={14} className={checking ? "animate-spin" : ""} />
             {checking ? "Checking..." : "Run Health Check"}
@@ -101,22 +101,22 @@ export default function MaintenancePage() {
 
         {/* Status Bar */}
         {data && (
-          <div className="flex gap-4 mb-6">
+          <div className="flex gap-3 mb-6">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-surface)] border border-[var(--color-line)]">
-              <span className="text-xs font-mono text-[var(--color-text-secondary)]">
+              <span className="text-xs text-[var(--color-text-secondary)]">
                 {data.machines_checked} machines checked
               </span>
             </div>
             {degradedCount > 0 && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-danger-glow)] border border-[rgba(224,86,63,0.2)]">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-danger-light)] border border-[var(--color-danger-border)]">
                 <AlertTriangle size={12} className="text-[var(--color-danger)]" />
-                <span className="text-xs font-mono text-[var(--color-danger)]">
+                <span className="text-xs text-[var(--color-danger)]">
                   {degradedCount} degraded
                 </span>
               </div>
             )}
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-surface)] border border-[var(--color-line)]">
-              <span className="text-xs font-mono text-[var(--color-text-muted)]">
+              <span className="text-xs text-[var(--color-text-muted)]">
                 Threshold: {data.threshold}
               </span>
             </div>
@@ -126,19 +126,19 @@ export default function MaintenancePage() {
         {error ? (
           <div className="card-base p-8 text-center">
             <Wrench size={32} className="mx-auto mb-3 text-[var(--color-text-muted)]" />
-            <p className="text-sm text-[var(--color-text-muted)] font-mono">
+            <p className="text-sm text-[var(--color-text-muted)]">
               Predictive maintenance service unreachable
             </p>
           </div>
         ) : machines.length === 0 ? (
           <div className="card-base p-8 text-center">
             <Activity size={32} className="mx-auto mb-3 text-[var(--color-text-muted)]" />
-            <p className="text-sm text-[var(--color-text-muted)] font-mono">
+            <p className="text-sm text-[var(--color-text-muted)]">
               No machine health data available
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {machines.map((m: any) => {
               const color = getHealthColor(m.health_score);
               const label = getHealthLabel(m.health_score);
@@ -149,7 +149,7 @@ export default function MaintenancePage() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <Wrench size={16} style={{ color }} />
-                      <h3 className="font-display font-semibold text-sm text-[var(--color-text-primary)]">
+                      <h3 className="font-semibold text-sm text-[var(--color-text-primary)]">
                         {m.machine_id}
                       </h3>
                     </div>
@@ -183,16 +183,16 @@ export default function MaintenancePage() {
                           strokeWidth="3"
                           strokeDasharray={`${pct}, 100`}
                           strokeLinecap="round"
-                          style={{ transition: "stroke-dasharray 0.8s ease" }}
+                          style={{ transition: "stroke-dasharray 0.6s ease" }}
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-sm font-bold font-mono" style={{ color }}>
+                        <span className="text-sm font-semibold" style={{ color }}>
                           {m.health_score}
                         </span>
                       </div>
                     </div>
-                    <div className="space-y-1 text-xs font-mono">
+                    <div className="space-y-1 text-xs">
                       <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
                         <Activity size={12} />
                         <span>Vibration: {m.vibration?.toFixed(1)} mm/s</span>
@@ -210,12 +210,12 @@ export default function MaintenancePage() {
 
                   {/* Prediction */}
                   <div className="pt-3 border-t border-[var(--color-line)] flex items-center justify-between">
-                    <span className="text-[11px] text-[var(--color-text-muted)] font-mono flex items-center gap-1">
+                    <span className="text-[11px] text-[var(--color-text-muted)] flex items-center gap-1">
                       <Clock size={10} />
                       Days to failure
                     </span>
                     <span
-                      className="text-sm font-bold font-mono"
+                      className="text-sm font-semibold"
                       style={{ color: m.predicted_days_to_failure <= 7 ? "var(--color-danger)" : color }}
                     >
                       {m.predicted_days_to_failure}d

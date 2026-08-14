@@ -69,22 +69,21 @@ export default function Sidebar() {
         collapsed ? "w-[68px]" : "w-[240px]"
       }`}
       style={{
-        background: "rgba(12, 16, 23, 0.95)",
-        backdropFilter: "blur(16px)",
+        background: "#FFFFFF",
         borderRight: "1px solid var(--color-line)",
       }}
     >
       {/* Logo Area */}
       <div className="flex items-center gap-3 px-4 h-16 border-b border-[var(--color-line)]">
-        <div className="w-8 h-8 rounded-lg gradient-cyan flex items-center justify-center flex-shrink-0">
-          <Activity size={18} color="#0c1017" strokeWidth={2.5} />
+        <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
+          <Activity size={18} color="#FFFFFF" strokeWidth={2.5} />
         </div>
         {!collapsed && (
-          <div className="animate-fade-in overflow-hidden">
-            <h1 className="text-sm font-bold tracking-wide text-[var(--color-text-primary)]">
+          <div className="overflow-hidden">
+            <h1 className="text-sm font-semibold text-[var(--color-text-primary)]">
               FactoryGPT
             </h1>
-            <p className="text-[10px] text-[var(--color-text-muted)] font-mono tracking-wider uppercase">
+            <p className="text-[10px] text-[var(--color-text-muted)] tracking-wide">
               ERP Portal
             </p>
           </div>
@@ -98,7 +97,7 @@ export default function Sidebar() {
             className={`status-dot ${backendOnline ? "status-dot-online" : "status-dot-offline"}`}
           />
           {!collapsed && (
-            <span className="text-[11px] font-mono text-[var(--color-text-secondary)]">
+            <span className="text-[11px] text-[var(--color-text-secondary)]">
               {backendOnline ? "System Online" : "Backend Offline"}
             </span>
           )}
@@ -116,17 +115,12 @@ export default function Sidebar() {
               key={item.href}
               href={item.href}
               title={collapsed ? item.label : undefined}
-              className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative ${
+              className={`group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? "bg-[var(--color-cyan-glow)] text-[var(--color-cyan)]"
+                  ? "bg-[var(--color-primary-light)] text-[var(--color-primary)]"
                   : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]"
               }`}
             >
-              {/* Active indicator bar */}
-              {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-[var(--color-cyan)]" />
-              )}
-
               <span className="flex-shrink-0">{item.icon}</span>
 
               {!collapsed && (
