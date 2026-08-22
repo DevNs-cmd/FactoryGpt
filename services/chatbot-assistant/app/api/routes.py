@@ -47,7 +47,7 @@ def chat(payload: ChatRequest, user: dict = Depends(get_current_user)):
         confidence=res["confidence"],
         suggestions=res["suggestions"],
         execution_time_ms=res.get("execution_time_ms", 0.0),
-        model_used=res.get("model_used", "llama-3.3-70b-versatile"),
+        model_used=res.get("model_used", "FactoryGPT AI Engine"),
         api_cost=0.0005
     )
 
@@ -58,7 +58,7 @@ def chat(payload: ChatRequest, user: dict = Depends(get_current_user)):
         "confidence": res["confidence"],
         "suggestions": res["suggestions"],
         "execution_time_ms": res.get("execution_time_ms", 0.0),
-        "model_used": res.get("model_used", "llama-3.3-70b-versatile")
+        "model_used": res.get("model_used", "FactoryGPT AI Engine")
     }
 
 @router.post("/voice", response_model=VoiceResponse)
