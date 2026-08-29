@@ -34,7 +34,7 @@ export default function DashboardOverview() {
           api.getOverview(),
         ]);
         setSummary(s);
-        setTickets(t);
+        setTickets(Array.isArray(t) ? t : []);
         setOverview(o);
         setError(false);
       } catch {
@@ -80,10 +80,62 @@ export default function DashboardOverview() {
     );
   }
 
+  const handleSeedDemoData = async () => {
+    setLoading(true);
+    try {
+      await api.seedData(true);
+      const [s, t, o] = await Promise.all([
+        api.getProductionSummary(),
+        api.getTickets({ limit: 5 }),
+        api.getOverview(),
+      ]);
+      setSummary(s);
+      setTickets(Array.isArray(t) ? t : []);
+      setOverview(o);
+    } catch {
+      // ignore
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const openTickets = tickets.filter((t) => t.status === "open").length;
 
   return (
     <div className="space-y-6">
+      {/* ── New Plant Clean Onboarding Banner ──────────────────────── */}
+      {(summary?.total_count === 0 || !summary?.total_count) && (
+        <div className="card-base p-6 border-2 border-blue-200 bg-blue-50/40 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5 max-w-2xl">
+            <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+              <Factory size={22} />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[var(--color-text-primary)]">
+                Welcome to your new Plant Workspace!
+              </h3>
+              <p className="text-xs text-[var(--color-text-secondary)] mt-1 leading-relaxed">
+                Your factory workspace is clean with 0 dummy tickets and 0 initial production records. Get started by uploading your custom production CSV or load the multi-story test dataset.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href="/production"
+              className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-xs font-bold hover:opacity-90 transition-all shadow-xs"
+            >
+              📥 Import Factory CSV
+            </a>
+            <button
+              onClick={handleSeedDemoData}
+              className="px-4 py-2 rounded-lg bg-white border border-[var(--color-line)] text-[var(--color-text-primary)] text-xs font-bold hover:bg-slate-100 transition-all shadow-xs"
+            >
+              ⚡ Load Demo Dataset
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── KPI Row ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
@@ -151,41 +203,48 @@ export default function DashboardOverview() {
             </a>
           </div>
           {tickets.length === 0 ? (
-            <p className="text-sm text-[var(--color-text-muted)]">No tickets yet</p>
+            <p className="text-sm text-slate-500 font-medium py-3">No tickets yet</p>
           ) : (
             <div className="space-y-2">
-              {tickets.map((t) => (
-                <div
-                  key={t.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-[var(--color-surface)] hover:bg-[var(--color-panel-hover)] transition-colors"
-                >
-                  <div className="mt-0.5">
-                    <span
-                      className={`badge ${
-                        t.status === "open"
-                          ? "badge-open"
-                          : t.status === "acknowledged"
-                          ? "badge-acknowledged"
-                          : "badge-closed"
-                      }`}
-                    >
-                      {t.status}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-[var(--color-text-primary)] truncate">
-                      {t.description}
-                    </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="badge badge-offline text-[9px]">{t.source_module}</span>
-                      <span className="text-[10px] text-[var(--color-text-muted)] flex items-center gap-1">
-                        <Clock size={10} />
-                        {new Date(t.created_at).toLocaleDateString()}
+              {tickets.map((t) => {
+                // Strip redundant prefix up to the colon ':' (e.g. "Automated QA Detection: ")
+                const cleanDesc = t.description?.includes(":")
+                  ? t.description.split(/:\s*/).slice(1).join(": ").trim()
+                  : t.description;
+
+                return (
+                  <div
+                    key={t.id}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-slate-50/80 border border-slate-200/70 hover:bg-slate-100/80 transition-colors shadow-xs"
+                  >
+                    <div className="mt-0.5">
+                      <span
+                        className={`badge font-bold text-[10px] ${
+                          t.status === "open"
+                            ? "badge-open"
+                            : t.status === "acknowledged"
+                            ? "badge-acknowledged"
+                            : "badge-closed"
+                        }`}
+                      >
+                        {t.status}
                       </span>
                     </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-slate-900 truncate">
+                        {cleanDesc || "Quality or maintenance inspection event"}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="badge badge-offline text-[9px] uppercase font-mono">{t.source_module}</span>
+                        <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                          <Clock size={10} />
+                          {new Date(t.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -214,7 +273,7 @@ export default function DashboardOverview() {
               },
               {
                 name: "Chatbot Assistant",
-                online: true, // Checked via overview — we don't have a direct key, show as derived
+                online: overview?.chatbot?.status === "ok",
                 port: 8002,
               },
             ].map((svc) => (

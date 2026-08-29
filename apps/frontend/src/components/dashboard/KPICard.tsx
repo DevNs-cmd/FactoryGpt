@@ -34,9 +34,9 @@ export default function KPICard({ label, value, icon, accent, subtitle, trend, d
           <span
             className={`flex items-center gap-1 text-xs ${
               trend === "up"
-                ? "text-success"
+                ? "text-[var(--color-success)]"
                 : trend === "down"
-                ? "text-danger"
+                ? "text-[var(--color-danger)]"
                 : "text-[var(--color-text-muted)]"
             }`}
           >
