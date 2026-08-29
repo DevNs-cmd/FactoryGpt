@@ -20,3 +20,12 @@ services/vision-inspection/data/images/
 services/vision-inspection/data/labels/
 services/vision-inspection/data/prepared/
 runs/
+
+# Local service runner & convenience scripts
+run_all_services.py
+run_core_and_frontend.py
+run_core_frontend.bat
+start_all_bg.py
+start_portal.bat
+start_portal.py
+test_imports.py
