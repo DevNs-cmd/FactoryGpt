@@ -1,8 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design Tokens ───────────────────────────────────────────────── */
+:root {
+  --color-base: #F8F9FA;
+  --color-panel: #FFFFFF;
+  --color-panel-hover: #F8F9FA;
+  --color-surface: #F1F3F5;
+  --color-line: #E2E8F0;
+  --color-primary: #2563EB;
+  --color-primary-light: rgba(37, 99, 235, 0.08);
+  --color-primary-border: rgba(37, 99, 235, 0.2);
+  --color-amber: #D97706;
+  --color-amber-light: rgba(217, 119, 6, 0.08);
+  --color-amber-border: rgba(217, 119, 6, 0.2);
+  --color-danger: #DC2626;
+  --color-danger-light: rgba(220, 38, 38, 0.08);
+  --color-danger-border: rgba(220, 38, 38, 0.2);
+  --color-success: #16A34A;
+  --color-success-light: rgba(22, 163, 74, 0.08);
+  --color-success-border: rgba(22, 163, 74, 0.2);
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────── */
 body {
-  background-color: #12161c;
-  color: #e6e9ee;
+  background-color: var(--color-base);
+  color: var(--color-text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* ── Selection ────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* ── Animations ───────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Utility Classes ──────────────────────────────────────────────── */
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-surface) 25%, #E8ECF0 50%, var(--color-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Card Styles ──────────────────────────────────────────────────── */
+.card-base {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-base:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: #CBD5E1;
+}
+
+/* ── Badge Styles ─────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.badge-open {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+}
+
+.badge-acknowledged {
+  background: var(--color-amber-light);
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber-border);
+}
+
+.badge-closed {
+  background: var(--color-success-light);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.badge-critical {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border);
+}
+
+.badge-online {
+  background: var(--color-success-light);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.badge-offline {
+  background: #F1F3F5;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-line);
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────── */
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+/* ── Status Dot ───────────────────────────────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-dot-online {
+  background: var(--color-success);
+}
+
+.status-dot-offline {
+  background: var(--color-text-muted);
+}
+
+.status-dot-warning {
+  background: var(--color-amber);
+}
+
+/* ── Recharts Overrides ───────────────────────────────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--color-line);
+  stroke-opacity: 0.7;
+}
+
+.recharts-text {
+  fill: var(--color-text-secondary) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
 }
