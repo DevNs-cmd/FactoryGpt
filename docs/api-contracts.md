@@ -122,6 +122,9 @@ build.
 - `GET /production/live` → current counts vs target
 - `GET /production/downtime` → downtime log
 - `POST /workflow/defect-event` → logs a defect, opens a Ticket, calls Gauri's `/notify`
+- `GET /workflow/tickets` → retrieves created workflow tickets/alerts (supports optional `source_module` and `status` query filters)
+- `POST /workflow/machine-alert` → logs a machine health threshold breach alert, opens a Ticket, calls Gauri's `/notify`
+- `GET /workflow/check-machine-health` → polls predictive-maintenance, checks health thresholds (< 40), auto-creates tickets and notifies chatbot for degraded machines
 - `GET /integrations/overview` → aggregates vision/maintenance/root-cause for the dashboard (each call wrapped in try/except — a dead service returns `null`, not a 500)
 - `POST /integrations/chat` → proxies to chatbot-assistant `/chat`
 

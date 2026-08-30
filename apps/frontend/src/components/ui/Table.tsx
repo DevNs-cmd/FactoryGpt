@@ -1,29 +1,61 @@
-/** Owner: Abhi. Generic data table reused across production/downtime/report views. */
+/** Data table with sorting indicators, row hover, and empty state. */
+import { ArrowUpDown } from "lucide-react";
+
+interface TableProps {
+  columns: string[];
+  rows: (string | number)[][];
+  emptyMessage?: string;
+}
+
 export default function Table({
   columns,
   rows,
-}: {
-  columns: string[];
-  rows: (string | number)[][];
-}) {
+  emptyMessage = "No data available",
+}: TableProps) {
+  if (rows.length === 0) {
+    return (
+      <div className="text-center py-8 text-[var(--color-text-muted)] text-sm">
+        {emptyMessage}
+      </div>
+    );
+  }
+
   return (
-    <table className="w-full text-sm font-mono">
-      <thead>
-        <tr className="text-left text-gray-400 border-b border-line">
-          {columns.map((c) => (
-            <th key={c} className="pb-2 pr-4 font-normal">{c}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, i) => (
-          <tr key={i} className="border-b border-line/50">
-            {row.map((cell, j) => (
-              <td key={j} className="py-1.5 pr-4 text-gray-200">{cell}</td>
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="text-left text-[var(--color-text-muted)] border-b border-[var(--color-line)]">
+            {columns.map((c) => (
+              <th
+                key={c}
+                className="pb-3 pr-4 font-medium text-xs"
+              >
+                <span className="inline-flex items-center gap-1">
+                  {c}
+                  <ArrowUpDown size={10} className="opacity-30" />
+                </span>
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr
+              key={i}
+              className="border-b border-[var(--color-line)] border-opacity-50 hover:bg-[var(--color-surface)] transition-colors"
+            >
+              {row.map((cell, j) => (
+                <td
+                  key={j}
+                  className="py-2.5 pr-4 text-[var(--color-text-secondary)]"
+                >
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
